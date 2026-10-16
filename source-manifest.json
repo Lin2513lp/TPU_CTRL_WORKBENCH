@@ -1,0 +1,99 @@
+{
+  "release": "ctrl-error-logic-20261016",
+  "source": "TPU_CTRL_WORKBENCH.html",
+  "sourceSha256": "0362306f633b2f3b022c2dc707d7783d7b4dba013a0449e829c2e0f1a1ca0ed6",
+  "publishedSha256": "5473a65ea03cba3a1888907a4a0d04ffe75861083ca4c06ee7c63d6b70fe2f8f",
+  "publicationChange": "Only replace the offline file:// diagram link with a relative web link.",
+  "sources": [
+    {
+      "name": "TPU_CTRL/rtl/tpu_ctrl.sv",
+      "sourceSha256": "d3d28d021c49cbab40e19253839941adc2af00e7e4b48018e2a73f1ea3dc4f35",
+      "publishedSha256": "d3d28d021c49cbab40e19253839941adc2af00e7e4b48018e2a73f1ea3dc4f35"
+    },
+    {
+      "name": "TPU_CTRL/rtl/tpu_ctrl_sync.sv",
+      "sourceSha256": "62ff5530ea9241dd6c009b72ec42812c92904e5a18ab2364d9a3cded95ff525e",
+      "publishedSha256": "62ff5530ea9241dd6c009b72ec42812c92904e5a18ab2364d9a3cded95ff525e"
+    },
+    {
+      "name": "TPU_CTRL/rtl/tpu_ctrl_skew.sv",
+      "sourceSha256": "811490b07902c26011e0ffd5da27b541d2ed0d64b4c7494164092cebe7257f32",
+      "publishedSha256": "811490b07902c26011e0ffd5da27b541d2ed0d64b4c7494164092cebe7257f32"
+    },
+    {
+      "name": "TPU_CTRL/rtl/filelist.f",
+      "sourceSha256": "c3ca48059b7e111e039ec814d701903cf0fb68728ff8f45d0ee0974932825e34",
+      "publishedSha256": "c3ca48059b7e111e039ec814d701903cf0fb68728ff8f45d0ee0974932825e34"
+    },
+    {
+      "name": "TPU_CTRL/tb/tb_tpu_ctrl.sv",
+      "sourceSha256": "8cf419451ff6478368e968b5e330544f22ee2ff43570975dcb4d4a9cdef00642",
+      "publishedSha256": "b60ff451dbff656bc8f886dec8b7f59f2b3d3e3cdb90656f78944994f2276fd0"
+    },
+    {
+      "name": "TPU_CTRL/rtl/reg_list.sv",
+      "sourceSha256": "d82859a5a8a8bc1e3da7e4271d20684876fd63e86ed1580bfab7beee794f716e",
+      "publishedSha256": "d82859a5a8a8bc1e3da7e4271d20684876fd63e86ed1580bfab7beee794f716e"
+    },
+    {
+      "name": "TPU_CTRL/rtl/ahb_slave_regmap.sv",
+      "sourceSha256": "ec1eaf2cc1167db1e1dcdcd7dbe81aff01d2e5e287145055545642452a32b9e1",
+      "publishedSha256": "ec1eaf2cc1167db1e1dcdcd7dbe81aff01d2e5e287145055545642452a32b9e1"
+    },
+    {
+      "name": "TPU_CTRL/tb/tb_reg_list.sv",
+      "sourceSha256": "c71fe31ea4302939ceb628e9c6ce826c906c29e63a33d1370709eb9e20d20d0e",
+      "publishedSha256": "a20fc93a4cf923d5ac0f714f330bb7a83db0a6d6115f85537f6bc1d070345b6f"
+    },
+    {
+      "name": "TPU_CTRL/tb/tb_ahb_slave_regmap.sv",
+      "sourceSha256": "70be088192a75d5ab79bff28d81ef511a5cc43342f00def75ef32e4e6cdbbefd",
+      "publishedSha256": "fd53e73527424c6700ff122ef84671696cc45cc0a423d01c08f4f9018f9964b9"
+    },
+    {
+      "name": "TPU_CTRL/Makefile",
+      "sourceSha256": "535ac7276da33c04ebf6ac052647748415f30f4e0b79a5bbe7bbcab83ef8b399",
+      "publishedSha256": "535ac7276da33c04ebf6ac052647748415f30f4e0b79a5bbe7bbcab83ef8b399"
+    },
+    {
+      "name": "TPU_CTRL/README.md",
+      "sourceSha256": "45b8b321e1ca8e56b80b46e716094bc372c3b5610a70a2f4cc7a7dfd9d24dfa1",
+      "publishedSha256": "efe09fd9a719a6b3bcdbbeccf0eba73108e00640ba0ac3d27eb867b7b6538789"
+    },
+    {
+      "name": "TPU_CTRL/scripts/check_license.sh",
+      "sourceSha256": "67114732f7d73e88837214305d40a6ec04797ff1bf0f0f41a2b02d9791883ed4",
+      "publishedSha256": "67114732f7d73e88837214305d40a6ec04797ff1bf0f0f41a2b02d9791883ed4"
+    },
+    {
+      "name": "integration/tpu_compute_path.sv",
+      "sourceSha256": "b7bdb63b7114edd4b89b85c3e44e311b49c7be7ed8bd5a3a3200202386109033",
+      "publishedSha256": "b7bdb63b7114edd4b89b85c3e44e311b49c7be7ed8bd5a3a3200202386109033"
+    },
+    {
+      "name": "sa/rtl/sa_top.sv",
+      "sourceSha256": "4c01337a9f4e0e2ea8d2c5bc13e1268ee8284e5a71c89da6e46a96bdb95b7dba",
+      "publishedSha256": "246e85f71df624d282193a17766f23d81dae3348572df3be81c63140418a999e"
+    },
+    {
+      "name": "sa/rtl/sa_ctrl.sv",
+      "sourceSha256": "26221e2528b85905b3f5421411f4ee9359f44dba93298a1e15dec92855c1791d",
+      "publishedSha256": "26221e2528b85905b3f5421411f4ee9359f44dba93298a1e15dec92855c1791d"
+    },
+    {
+      "name": "sa/rtl/output_collector.sv",
+      "sourceSha256": "af5533d9cfde001ea51df1e2092ef95fe96471dae236a0554e091c4de670ec26",
+      "publishedSha256": "af5533d9cfde001ea51df1e2092ef95fe96471dae236a0554e091c4de670ec26"
+    },
+    {
+      "name": "AXI_TOP/AXI_M_TOP/rtl/fifo_in.sv",
+      "sourceSha256": "6179df997e928b25a4b2e37f30cd309acf32ffff4dff53a6c88b03725ad1eea1",
+      "publishedSha256": "6179df997e928b25a4b2e37f30cd309acf32ffff4dff53a6c88b03725ad1eea1"
+    },
+    {
+      "name": "AXI_TOP/AXI_M_TOP/rtl/AXI_M_TOP.sv",
+      "sourceSha256": "8a1190f446b3474894acb827321d6f7ae45b32dddf6de2ffacb8299454d89438",
+      "publishedSha256": "8a1190f446b3474894acb827321d6f7ae45b32dddf6de2ffacb8299454d89438"
+    }
+  ]
+}

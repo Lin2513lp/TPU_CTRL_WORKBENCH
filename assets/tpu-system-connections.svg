@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1870" viewBox="0 0 1800 1870" role="img" aria-labelledby="title desc">
+<title id="title">CPU、AHB_SLAVE、REG_MAP、TPU_CTRL、FIFO 与 SA 整体连接</title>
+<desc id="desc">CPU 经 AHB_SLAVE 读写 REG_MAP。REG_MAP 向 CTRL 发送配置，CTRL 回传状态；FIFO_IN 向 CTRL 提供输入，CTRL 逐行对齐后送给 SA。权重及静态配置另接 SA，SA 的32位rpt_active_size经待实现的状态跨域返回REG_MAP。CRG控制接时钟复位模块，SA结果接FIFO_OUT。</desc>
+<defs><marker id="blue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L7 4L0 8" fill="#3570b5"/></marker><marker id="green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L7 4L0 8" fill="#22856a"/></marker><marker id="amber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L7 4L0 8" fill="#ad7a27"/></marker></defs>
+<style>text{font-family:Consolas,'Microsoft YaHei',sans-serif;fill:#233b55;font-size:23px}.title{font-size:32px;font-weight:600}.heading{font-size:28px;font-weight:600}.note{font-size:21px;fill:#61748b}.small{font-size:20px;fill:#61748b}.blue,.green,.amber{fill:none;stroke-width:2.6;stroke-linejoin:round}.blue{stroke:#3570b5;marker-end:url(#blue)}.green{stroke:#22856a;marker-end:url(#green)}.amber{stroke:#ad7a27;stroke-dasharray:8 6;marker-end:url(#amber)}</style>
+<rect width="1800" height="1870" fill="#f7f9fc"/>
+
+<text x="30" y="48" class="title" text-anchor="start">TPU_TOP 整体连接：CPU 配置 → FIFO 输入 → CTRL 对齐 → SA 计算</text>
+<text x="30" y="86" class="note" text-anchor="start">蓝色：配置 / 输入；绿色：状态 / 响应 / 读使能 / 结果；虚线：接口归属待统一。[n] 为位宽。</text>
+<text x="30" y="130" class="heading" text-anchor="start">① CPU 与寄存器访问 · ahb_clk 100MHz</text>
+<rect x="25" y="160" width="135" height="590" rx="12" fill="#eaf2ff" stroke="#7095c6" stroke-width="2"/>
+<text x="92.5" y="202" class="heading" text-anchor="middle">CPU</text>
+<text x="92.5" y="238" class="note" text-anchor="middle">AHB 总线侧</text>
+<rect x="390" y="160" width="200" height="590" rx="12" fill="#fff" stroke="#7095c6" stroke-width="2"/>
+<text x="490.0" y="202" class="heading" text-anchor="middle">AHB_SLAVE</text>
+<rect x="820" y="160" width="290" height="590" rx="12" fill="#e8f6ef" stroke="#68a78f" stroke-width="2"/>
+<text x="965.0" y="202" class="heading" text-anchor="middle">REG_MAP</text>
+<text x="965.0" y="238" class="note" text-anchor="middle">ahb_clk 域</text>
+<path d="M160 255H390" class="blue"/>
+<text x="275.0" y="243" class="" text-anchor="middle">hsel [1]</text>
+<path d="M160 293H390" class="blue"/>
+<text x="275.0" y="281" class="" text-anchor="middle">haddr [32]</text>
+<path d="M160 331H390" class="blue"/>
+<text x="275.0" y="319" class="" text-anchor="middle">htrans [2]</text>
+<path d="M160 369H390" class="blue"/>
+<text x="275.0" y="357" class="" text-anchor="middle">hwrite [1]</text>
+<path d="M160 407H390" class="blue"/>
+<text x="275.0" y="395" class="" text-anchor="middle">hsize [3]</text>
+<path d="M160 445H390" class="blue"/>
+<text x="275.0" y="433" class="" text-anchor="middle">hburst [3]</text>
+<path d="M160 483H390" class="blue"/>
+<text x="275.0" y="471" class="" text-anchor="middle">hprot [4]</text>
+<path d="M160 521H390" class="blue"/>
+<text x="275.0" y="509" class="" text-anchor="middle">hwdata [32]</text>
+<path d="M160 559H390" class="blue"/>
+<text x="275.0" y="547" class="" text-anchor="middle">hreadyin [1]</text>
+<path d="M390 635H160" class="green"/>
+<text x="275.0" y="623" class="" text-anchor="middle">hrdata [32]</text>
+<path d="M390 678H160" class="green"/>
+<text x="275.0" y="666" class="" text-anchor="middle">hready [1]</text>
+<path d="M390 721H160" class="green"/>
+<text x="275.0" y="709" class="" text-anchor="middle">hresp [1]</text>
+<path d="M590 295H820" class="blue"/>
+<text x="705.0" y="283" class="" text-anchor="middle">ahb_addr [10]</text>
+<path d="M590 367H820" class="blue"/>
+<text x="705.0" y="355" class="" text-anchor="middle">ahb_wr_data [32]</text>
+<path d="M590 439H820" class="blue"/>
+<text x="705.0" y="427" class="" text-anchor="middle">ahb_wr_en [1]</text>
+<path d="M590 511H820" class="blue"/>
+<text x="705.0" y="499" class="" text-anchor="middle">ahb_rd_en [1]</text>
+<path d="M820 625H590" class="green"/>
+<text x="705.0" y="613" class="" text-anchor="middle">ahb_rd_data [32]</text>
+<text x="490" y="345" class="note" text-anchor="middle">地址 / 控制缓存</text>
+<text x="490" y="389" class="note" text-anchor="middle">HADDR[11:2]</text>
+<text x="490" y="433" class="note" text-anchor="middle">形成字索引</text>
+<text x="490" y="477" class="note" text-anchor="middle">写数据阶段</text>
+<text x="490" y="521" class="note" text-anchor="middle">读写使能生成</text>
+<text x="965" y="350" class="note" text-anchor="middle">RW 配置保存</text>
+<text x="965" y="396" class="note" text-anchor="middle">W1P 启动 / 装载</text>
+<text x="965" y="442" class="note" text-anchor="middle">RO 状态读回</text>
+<text x="965" y="488" class="note" text-anchor="middle">0x105 → 0x414</text>
+<text x="965" y="534" class="note" text-anchor="middle">字索引 → CPU偏移</text>
+<rect x="1160" y="240" width="580" height="245" rx="12" fill="#edf4ff" stroke="#c3d7f3" stroke-width="2"/>
+<text x="1185" y="277" class="heading" text-anchor="start">REG_MAP → SA_TOP：权重 / 静态配置</text>
+<text x="1185" y="321" class="" text-anchor="start">cpu_dat_in_b [512]</text>
+<text x="1185" y="365" class="small" text-anchor="start">cpu_dat_in_b_sel [4] / cpu_dat_in_b_lock [1]</text>
+<text x="1185" y="409" class="small" text-anchor="start">cpu_cpt_mode [2] / cpu_h_size [4] / cpu_w_size [4]</text>
+<text x="1185" y="453" class="small" text-anchor="start">B 装载按 SA 的 DMUX 稳定窗口约定</text>
+<path d="M1110 355H1160" class="blue"/>
+<path d="M1740 355H1760V1190H1740" class="blue"/>
+<rect x="1420" y="565" width="320" height="175" rx="12" fill="#e8f6ef" stroke="#68a78f" stroke-width="2"/>
+<text x="1580.0" y="607" class="heading" text-anchor="middle">CRG</text>
+<text x="1580.0" y="643" class="note" text-anchor="middle">时钟 / 复位控制</text>
+<path d="M1110 650H1420" class="blue"/>
+<text x="1125" y="595" class="small" text-anchor="start">cpu_tpu_crg_en [1]</text>
+<text x="1125" y="630" class="small" text-anchor="start">cpu_tpu_crg_bypass [1]</text>
+<text x="1125" y="665" class="small" text-anchor="start">cpu_sw_rst [1]</text>
+<text x="1450" y="688" class="small" text-anchor="start">→ sys_ckg / tpu_rst_n</text>
+<text x="1450" y="719" class="small" text-anchor="start">供 CTRL / SA / FIFO 使用</text>
+<text x="1425" y="772" class="small" text-anchor="start">复位端口：cpu_tpu_sw_rst</text>
+<rect x="450" y="785" width="340" height="245" rx="12" fill="#edf4ff" stroke="#c3d7f3" stroke-width="2"/>
+<text x="472" y="822" class="heading" text-anchor="start">REG_MAP → CTRL</text>
+<text x="472" y="865" class="" text-anchor="start">cpu_tpu_en [1]</text>
+<text x="472" y="907" class="" text-anchor="start">cpu_tpu_start [1]</text>
+<text x="472" y="949" class="" text-anchor="start">cpu_cpt_mode [2]</text>
+<text x="472" y="991" class="" text-anchor="start">cpu_h_size [4] / cpu_w_size [4]</text>
+<path d="M900 750V1080" class="blue"/>
+<path d="M790 910H900" class="blue"/>
+<text x="883" y="1052" class="note" text-anchor="end">配置跨域</text>
+<rect x="1135" y="785" width="325" height="245" rx="12" fill="#e8f6ef" stroke="#b6d8cc" stroke-width="2"/>
+<text x="1155" y="822" class="heading" text-anchor="start">CTRL → REG_MAP</text>
+<text x="1155" y="865" class="" text-anchor="start">rpt_cpt_done [1]</text>
+<text x="1155" y="907" class="" text-anchor="start">rpt_dat_in_cnt [32]</text>
+<text x="1155" y="949" class="" text-anchor="start">rpt_error_state [3]</text>
+<text x="1155" y="991" class="small" text-anchor="start">错误次数：0x103 [2:0] · RO</text>
+<path d="M1040 1080V750" class="green"/>
+<path d="M1135 910H1040" class="green"/>
+<text x="1057" y="1052" class="note" text-anchor="start">状态跨域</text>
+<text x="30" y="1125" class="heading" text-anchor="start">② A 数据通路</text>
+<text x="30" y="1164" class="note" text-anchor="start">sys_ckg 400MHz</text>
+<rect x="820" y="1080" width="290" height="510" rx="12" fill="#fff" stroke="#7095c6" stroke-width="2"/>
+<text x="965.0" y="1122" class="heading" text-anchor="middle">TPU_CTRL</text>
+<rect x="835" y="1138" width="260" height="155" rx="12" fill="#edf4ff" stroke="#c3d7f3" stroke-width="2"/>
+<text x="965" y="1170" class="" text-anchor="middle">tpu_ctrl_sync</text>
+<text x="965" y="1210" class="note" text-anchor="middle">使能 / 启动 / 配置</text>
+<text x="965" y="1252" class="note" text-anchor="middle">计数 / 完成 / 错误</text>
+<path d="M965 1295V1330" class="blue"/>
+<rect x="835" y="1335" width="260" height="235" rx="12" fill="#edf4ff" stroke="#c3d7f3" stroke-width="2"/>
+<text x="965" y="1374" class="" text-anchor="middle">tpu_ctrl /</text>
+<text x="965" y="1414" class="" text-anchor="middle">tpu_ctrl_skew</text>
+<text x="965" y="1454" class="note" text-anchor="middle">FIFO 有效读拍</text>
+<text x="965" y="1494" class="note" text-anchor="middle">16×32bit 拆分</text>
+<text x="965" y="1534" class="small" text-anchor="middle">逐行 Skew / valid / last</text>
+<rect x="210" y="1240" width="270" height="310" rx="12" fill="#eaf2ff" stroke="#7095c6" stroke-width="2"/>
+<text x="345.0" y="1282" class="heading" text-anchor="middle">FIFO_IN</text>
+<text x="345.0" y="1318" class="note" text-anchor="middle">AXI_M_TOP 内部</text>
+<text x="345" y="1400" class="note" text-anchor="middle">首字直通队头</text>
+<text x="345" y="1444" class="note" text-anchor="middle">与 CTRL 同域</text>
+<path d="M480 1345H820" class="blue"/>
+<text x="650.0" y="1333" class="" text-anchor="middle">fifo_empty [1]</text>
+<path d="M480 1407H820" class="blue"/>
+<text x="650.0" y="1395" class="" text-anchor="middle">fifo_in_rdata [512]</text>
+<path d="M480 1469H820" class="blue"/>
+<text x="650.0" y="1457" class="" text-anchor="middle">fifo_in_rd_dat_last [1]</text>
+<path d="M820 1525H480" class="green"/>
+<text x="650.0" y="1513" class="" text-anchor="middle">fifo_in_re [1]</text>
+<rect x="1450" y="1080" width="290" height="510" rx="12" fill="#eaf2ff" stroke="#7095c6" stroke-width="2"/>
+<text x="1595.0" y="1122" class="heading" text-anchor="middle">SA_TOP</text>
+<text x="1595.0" y="1158" class="note" text-anchor="middle">sys_ckg 域</text>
+<path d="M1110 1190H1450" class="blue"/>
+<text x="1280.0" y="1178" class="" text-anchor="middle">cpu_tpu_en_sync [1]</text>
+<path d="M1110 1252H1450" class="blue"/>
+<text x="1280.0" y="1240" class="" text-anchor="middle">cpu_tpu_start_sync [1]</text>
+<path d="M1110 1390H1450" class="blue"/>
+<text x="1280.0" y="1378" class="" text-anchor="middle">dat_in_vld [1]</text>
+<path d="M1110 1452H1450" class="blue"/>
+<text x="1280.0" y="1440" class="" text-anchor="middle">dat_in_a [512]</text>
+<path d="M1110 1514H1450" class="blue"/>
+<text x="1280.0" y="1502" class="" text-anchor="middle">dat_in_last [1]</text>
+<text x="1595" y="1315" class="note" text-anchor="middle">16×16 物理阵列</text>
+<text x="1595" y="1369" class="note" text-anchor="middle">A 每拍固定16路</text>
+<text x="1595" y="1423" class="note" text-anchor="middle">每路32bit</text>
+<text x="1595" y="1477" class="note" text-anchor="middle">H/W 仅选择有效行列</text>
+<path d="M1740 1535H1785V200H1110" class="green"/>
+<text x="1160" y="145" class="heading" text-anchor="start">SA_TOP → REG_MAP · rpt_active_size [32]</text>
+<text x="1160" y="180" class="small" text-anchor="start">[31:16] = H / [15:0] = W · RO 0x100</text>
+<text x="1490" y="855" class="note" text-anchor="start">SA 尺寸上报通路</text>
+<text x="1490" y="895" class="small" text-anchor="start">32bit 状态一致性跨域</text>
+<text x="1490" y="935" class="small" text-anchor="start">sys_ckg → ahb_clk</text>
+<text x="1490" y="975" class="small" text-anchor="start">CDC 协议待实现</text>
+<rect x="1450" y="1670" width="290" height="105" rx="12" fill="#e8f6ef" stroke="#68a78f" stroke-width="2"/>
+<text x="1595.0" y="1712" class="heading" text-anchor="middle">FIFO_OUT</text>
+<text x="1595.0" y="1748" class="note" text-anchor="middle">结果写入侧</text>
+<path d="M1595 1590V1670" class="green"/>
+<text x="1575" y="1620" class="note" text-anchor="end">dat_out / valid / last</text>
+<text x="1575" y="1653" class="note" text-anchor="end">SA 结果流</text>
+<path d="M1595 1632H1165V1560H1110" class="green"/>
+<text x="1140" y="1770" class="note" text-anchor="end">data_out_last [1]</text>
+<text x="1140" y="1805" class="small" text-anchor="end">SA valid 与 last 反馈；CTRL 产生 done</text>
+<text x="30" y="1642" class="heading" text-anchor="start">时钟 / 复位</text>
+<text x="30" y="1683" class="note" text-anchor="start">AHB_SLAVE、REG_MAP：ahb_clk [1] / tpu_rst_n [1]</text>
+<text x="30" y="1724" class="note" text-anchor="start">TPU_CTRL：sys_ckg [1] / tpu_rst_n [1]</text>
+<text x="30" y="1844" class="small" text-anchor="start">rpt_error：累计错误标志；rpt_error_state：提前SA LAST次数，到7饱和。状态返回AHB的CDC待实现。</text>
+</svg>
