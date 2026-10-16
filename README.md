@@ -1,15 +1,43 @@
-# TPU_CTRL 工作台
+# TPU_CTRL Design Workbench
 
-[打开在线工作台](https://lin2513lp.github.io/TPU_CTRL_WORKBENCH/)
+**[Open the TPU_CTRL Workbench](https://lin2513lp.github.io/TPU_CTRL_WORKBENCH/TPU_CTRL_WORKBENCH.html)**
 
-TPU_TOP / TPU_CTRL 设计报告、源码查看、Verdi 仿真波形与设计资料。
-当前发布版本：`ctrl-error-logic-20261016`。
+Dataflow control and 16-lane input alignment between FIFO_IN and SA_TOP. The workbench runs in a browser and requires no installation.
 
-- `index.html`：在线首页，独立 HTML，也可下载后离线打开。
-- `TPU_CTRL_WORKBENCH.html`：同一工作台的固定文件名入口。
-- `code/`：页面内嵌的18份源码与工程文件快照，包含最新 CTRL 错误检测/计数逻辑、寄存器 RTL 和 TB。
-- `assets/tpu-system-connections.svg`：可单独打开的系统连接图。
-- `source-manifest.json`：本地工作台、发布文件及源码快照的 SHA-256。
+## Workbench contents
 
-在线页面仅将本地系统连接图链接改为相对链接，设计内容、源码、波形与本地最新版一致。
-`code/` 是供查阅的快照，包含上下游参考文件，不是完整 TPU 编译工程。
+- FIFO reads, zero padding, and skew alignment for 16 x 32-bit input lanes.
+- Enable/start synchronization, input counting, and completion feedback from SA_TOP.
+- Protocol-error detection, a three-bit error count, and AHB register-map access.
+- Architecture reports, simulation captures, design notes, and source browsing.
+
+## Source files
+
+[`code/`](code/) contains the current `TPU_CTRL` source snapshot and the FIFO/SA integration references shown in the workbench. Relative paths are retained, including RTL, testbenches, Makefiles, file lists, and available helper scripts. The workbench's code viewer displays this same snapshot.
+
+There are **18 project files** in this snapshot. [`source-manifest.json`](source-manifest.json) records the source inventory and SHA-256 checksums. Generated simulator databases, waveform dumps, editor temporary files, and license logs are excluded. The upstream reference files are for source browsing rather than a complete TPU simulation checkout.
+
+## Repository layout
+
+| Path | Contents |
+| --- | --- |
+| [`TPU_CTRL_WORKBENCH.html`](TPU_CTRL_WORKBENCH.html) | Main design workbench |
+| [`code/`](code/) | Project source files, build entry points, and integration references |
+| [`source-manifest.json`](source-manifest.json) | Source inventory and checksums |
+| [`index.html`](index.html) | English project introduction and workbench link |
+
+## Using the project
+
+Open the workbench through the link above to browse the report, code, and waveforms. For standalone CTRL simulation, clone this repository, enter `code/TPU_CTRL/`, and use its Makefile in a configured Linux EDA environment. The original tool paths and environment variables in the shared Makefile are preserved; configure these for your installation.
+
+## Latest simulation update
+
+The current CTRL unit test passes 2,059 checks in Questa and VM VCS. A separate protocol-error test passes 807 checks in both simulators. The three-bit error count increments once per premature SA LAST incident, saturates at seven, and clears on reset or an accepted START.
+
+## Related workbenches
+
+- [TPU_CRG](https://github.com/Lin2513lp/TPU_CRG_WORKBENCH)
+- [AXI_TOP](https://github.com/Lin2513lp/AXI_TOP_WORKBENCH)
+- [AHB_SLAVE](https://github.com/Lin2513lp/AHB_SLAVE_WORKBENCH)
+- [SA_TOP](https://github.com/Lin2513lp/sa-workbench)
+- [PE_MP](https://github.com/Lin2513lp/pe-mp-workbench)
