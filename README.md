@@ -15,7 +15,7 @@ Dataflow control and 16-lane input alignment between FIFO_IN and SA_TOP. The wor
 
 [`code/`](code/) contains the current `TPU_CTRL` source snapshot and the FIFO/SA integration references shown in the workbench. Relative paths are retained, including RTL, testbenches, Makefiles, file lists, and available helper scripts. The workbench's code viewer displays this same snapshot.
 
-There are **18 project files** in this snapshot. [`source-manifest.json`](source-manifest.json) records the source inventory and SHA-256 checksums. Generated simulator databases, waveform dumps, editor temporary files, and license logs are excluded. The upstream reference files are for source browsing rather than a complete TPU simulation checkout.
+There are **22 project files** in this snapshot. [`source-manifest.json`](source-manifest.json) records the source inventory and SHA-256 checksums. Generated simulator databases, waveform dumps, editor temporary files, and license logs are excluded. The upstream reference files are for source browsing rather than a complete TPU simulation checkout.
 
 ## Repository layout
 

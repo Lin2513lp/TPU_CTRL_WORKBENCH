@@ -12,6 +12,8 @@ module tb_reg_list;
     logic [31:0] ahb_rd_data;
     logic cpu_tpu_en, cpu_sw_rst, cpu_tpu_start, cpu_tpu_crg_bypass;
     logic cpu_dat_in_b_lock, cpu_tpu_crg_en;
+    logic cpu_done_clear_req;
+    logic done_clear_ack = 1'b0;
     logic [3:0] cpu_h_size, cpu_w_size, cpu_dat_in_b_sel;
     logic [1:0] cpu_cpt_mode;
     logic [511:0] cpu_dat_in_b;
@@ -19,6 +21,7 @@ module tb_reg_list;
     logic [31:0] rpt_cpt_cyc = 32'd0;
     logic [31:0] rpt_dat_in_cnt = 32'd0;
     logic [2:0] rpt_error_state = 3'd0;
+    logic rpt_error = 1'b0;
     logic rpt_cpt_done = 1'b0;
     logic [31:0] expected [0:1023];
     integer checks = 0;
@@ -63,6 +66,7 @@ module tb_reg_list;
             10'h102: expected_read = rpt_dat_in_cnt;
             10'h103: expected_read = {29'd0, rpt_error_state};
             10'h104: expected_read = {31'd0, rpt_cpt_done};
+            10'h106: expected_read = {31'd0, rpt_error};
             default: expected_read = 32'd0;
         endcase
     endfunction
@@ -131,7 +135,7 @@ module tb_reg_list;
         @(negedge hclk);
         hrstn = 1'b1;
         for (integer i = 0; i <= 24; i = i + 1) read_check(10'(i));
-        for (integer i = 'h100; i <= 'h105; i = i + 1) read_check(10'(i));
+        for (integer i = 'h100; i <= 'h106; i = i + 1) read_check(10'(i));
 
         // All narrow field values; unused high bits must never be stored/read back.
         write_check(10'h000, 32'hffff_fffe);
@@ -170,7 +174,7 @@ module tb_reg_list;
         write_check(10'h008, 32'hffff_fffe);
         write_check(10'h008, 32'hffff_ffff);
 
-        // Reports are live RO, supplied coherently in hclk domain by the caller.
+        // Report values are supplied coherently in hclk by caller; DONE also accepts W1C.
         rpt_active_size = 32'h0010_000f;
         rpt_cpt_cyc = 32'h1234_5678;
         rpt_dat_in_cnt = 32'h8765_4321;
@@ -188,20 +192,34 @@ module tb_reg_list;
         rpt_cpt_done = 1'b0;
         for (integer i = 'h100; i <= 'h104; i = i + 1) read_check(10'(i));
 
-        // rpt_cpt_error is a live RO register: low3 bits report the error count.
-        // The CTRL detector is reserved; inject all possible interface values here.
-        for (integer count = 0; count < 8; count = count + 1) begin
-            rpt_error_state = 3'(count);
-            read_check(10'h103);
-            write_check(10'h103, 32'hffff_ffff);
-            read_check(10'h103);
-            write_check(10'h103, 32'h0000_0000);
-            read_check(10'h103);
+        // Separate live RO words: count0x103, flag0x106; no packed bit3.
+        // All16 independent pairs, zero extension and both RO write patterns.
+        for (integer flag = 0; flag < 2; flag = flag + 1) begin
+            for (integer count = 0; count < 8; count = count + 1) begin
+                rpt_error = 1'(flag);
+                rpt_error_state = 3'(count);
+                read_check(10'h103);
+                write_check(10'h103, 32'hffff_ffff);
+                read_check(10'h103);
+                write_check(10'h103, 32'h0000_0000);
+                read_check(10'h103);
+                read_check(10'h106);
+                write_check(10'h106, 32'hffff_ffff);
+                read_check(10'h106);
+                write_check(10'h106, 32'h0000_0000);
+                read_check(10'h106);
+            end
         end
+
+        // Neighbor0x105 remains RW; toggling it cannot change either report.
+        write_check(10'h105, 32'hffff_ffff);
+        read_check(10'h105); read_check(10'h106); read_check(10'h103);
+        write_check(10'h105, 32'h0000_0000);
+        read_check(10'h105); read_check(10'h106); read_check(10'h103);
 
         write_check(10'h019, 32'hffff_ffff); read_check(10'h019);
         write_check(10'h0ff, 32'hffff_ffff); read_check(10'h0ff);
-        write_check(10'h106, 32'hffff_ffff); read_check(10'h106);
+        write_check(10'h107, 32'hffff_ffff); read_check(10'h107);
         write_check(10'h3ff, 32'hffff_ffff); read_check(10'h3ff);
         apply_reset();
         $display("PASS tb_reg_list: %0d checks", checks);

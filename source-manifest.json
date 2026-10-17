@@ -1,14 +1,19 @@
 {
-  "release": "ctrl-error-logic-20261016",
+  "release": "ctrl-sticky-done-error106-20261017",
   "source": "TPU_CTRL_WORKBENCH.html",
-  "sourceSha256": "0362306f633b2f3b022c2dc707d7783d7b4dba013a0449e829c2e0f1a1ca0ed6",
-  "publishedSha256": "5473a65ea03cba3a1888907a4a0d04ffe75861083ca4c06ee7c63d6b70fe2f8f",
-  "publicationChange": "Only replace the offline file:// diagram link with a relative web link.",
+  "sourceSha256": "6fd8acf758c96db2c8c6dae99f547e55c47bec84105a18670d7463f55a0976fd",
+  "publishedSha256": "7cd819cc9b5b90cf037432291832aac1096a9f9bd2e32af0c872d4b2cf577bb8",
+  "publicationChange": "Only replace the embedded offline diagram link with a relative web link.",
   "sources": [
     {
       "name": "TPU_CTRL/rtl/tpu_ctrl.sv",
-      "sourceSha256": "d3d28d021c49cbab40e19253839941adc2af00e7e4b48018e2a73f1ea3dc4f35",
-      "publishedSha256": "d3d28d021c49cbab40e19253839941adc2af00e7e4b48018e2a73f1ea3dc4f35"
+      "sourceSha256": "7ce759b67c37c3ae85ef51af9f37e20e93b5c3268a034de54f0d0fdda8f02f95",
+      "publishedSha256": "55f955792503460ead1081f49fd993b878044380fcfef545fe2086e641fb6c25"
+    },
+    {
+      "name": "TPU_CTRL/rtl/tpu_compute_path.sv",
+      "sourceSha256": "468f009bdef552b1f17b41a6fbf5b22774350fe1aa35e36ffd82556784174711",
+      "publishedSha256": "388d24095e1dc44cae771f5567c24a01e617758b0f0ac8a893ec5e6b8ddea668"
     },
     {
       "name": "TPU_CTRL/rtl/tpu_ctrl_sync.sv",
@@ -27,28 +32,43 @@
     },
     {
       "name": "TPU_CTRL/tb/tb_tpu_ctrl.sv",
-      "sourceSha256": "8cf419451ff6478368e968b5e330544f22ee2ff43570975dcb4d4a9cdef00642",
-      "publishedSha256": "b60ff451dbff656bc8f886dec8b7f59f2b3d3e3cdb90656f78944994f2276fd0"
+      "sourceSha256": "98cafe54452fa0156e8aa36fabcf6053f1853fb9585f2a755adf1b252f98efc1",
+      "publishedSha256": "a608c72a7693ebd5cd7f98b1c804300f91ffb41ca5b03fab3605445a99b7cd29"
     },
     {
       "name": "TPU_CTRL/rtl/reg_list.sv",
-      "sourceSha256": "d82859a5a8a8bc1e3da7e4271d20684876fd63e86ed1580bfab7beee794f716e",
-      "publishedSha256": "d82859a5a8a8bc1e3da7e4271d20684876fd63e86ed1580bfab7beee794f716e"
+      "sourceSha256": "b02a7f12b775db51bba790b69aaee33b26b09ee4b55774e2cbe973d287fa6f0b",
+      "publishedSha256": "794738cf8cc606af5c280bc3f55f50b67007d9e0c9f3de57ada47233ef93d476"
     },
     {
       "name": "TPU_CTRL/rtl/ahb_slave_regmap.sv",
-      "sourceSha256": "ec1eaf2cc1167db1e1dcdcd7dbe81aff01d2e5e287145055545642452a32b9e1",
-      "publishedSha256": "ec1eaf2cc1167db1e1dcdcd7dbe81aff01d2e5e287145055545642452a32b9e1"
+      "sourceSha256": "6d4172a524739f3bd0cf31f1a087b710d21f731359ff97cd7671cbd6cc811386",
+      "publishedSha256": "3aacd1ba962c002dd1821316e5332464b4bc6697e51ab67e86b57ad2da4d2e32"
     },
     {
       "name": "TPU_CTRL/tb/tb_reg_list.sv",
-      "sourceSha256": "c71fe31ea4302939ceb628e9c6ce826c906c29e63a33d1370709eb9e20d20d0e",
-      "publishedSha256": "a20fc93a4cf923d5ac0f714f330bb7a83db0a6d6115f85537f6bc1d070345b6f"
+      "sourceSha256": "3edd5fe3331f79b66413b9b13c7fbcad8a4c62c4efc130088c4e578213d70584",
+      "publishedSha256": "3ae95edbdcd1b258c7e08210d5b2d8402d5544dce8cc921efdb07aa53a497249"
     },
     {
       "name": "TPU_CTRL/tb/tb_ahb_slave_regmap.sv",
-      "sourceSha256": "70be088192a75d5ab79bff28d81ef511a5cc43342f00def75ef32e4e6cdbbefd",
-      "publishedSha256": "fd53e73527424c6700ff122ef84671696cc45cc0a423d01c08f4f9018f9964b9"
+      "sourceSha256": "c4251781ca66a823350258c55acbfe92902f5ced4ee87dcdb8fdad41e00c23de",
+      "publishedSha256": "60940e37af49d8b40119b5d13d59e024245f482b7c746228bc56b18d693d0242"
+    },
+    {
+      "name": "TPU_CTRL/tb/tb_tpu_done_clear.sv",
+      "sourceSha256": "e9dec7e31656683316da24f7a1319153f19354fe65197b78eef8e572fbab1826",
+      "publishedSha256": "74f8843952d5dd08da061ac52df196ccfe0a16e3d028d4b1c7da66f8bbd5021e"
+    },
+    {
+      "name": "TPU_CTRL/tb/tpu_ctrl_assertions.sv",
+      "sourceSha256": "438b3b0e379f22dd5fc86e478f5ca983f680fca0f7af611081efefe493b30069",
+      "publishedSha256": "23467dbb19387188f015b830948bcc733d2cdfc2c76bf715617d245226cc5c9b"
+    },
+    {
+      "name": "TPU_CTRL/tb/reg_list_assertions.sv",
+      "sourceSha256": "d79f42bf96c1b474fb8e43f1527ba709336b62ea086946a5d78da202d9e55473",
+      "publishedSha256": "d79f42bf96c1b474fb8e43f1527ba709336b62ea086946a5d78da202d9e55473"
     },
     {
       "name": "TPU_CTRL/Makefile",
@@ -57,8 +77,8 @@
     },
     {
       "name": "TPU_CTRL/README.md",
-      "sourceSha256": "45b8b321e1ca8e56b80b46e716094bc372c3b5610a70a2f4cc7a7dfd9d24dfa1",
-      "publishedSha256": "efe09fd9a719a6b3bcdbbeccf0eba73108e00640ba0ac3d27eb867b7b6538789"
+      "sourceSha256": "f5c56b5dafea935373498afaa8c771036a4998b6a0b4db550e1e6b5c73eb27b0",
+      "publishedSha256": "e72e8d0dc3f1bc72887a761fd45cc7b9a5d76b62f857c01e3f884ce445339074"
     },
     {
       "name": "TPU_CTRL/scripts/check_license.sh",
