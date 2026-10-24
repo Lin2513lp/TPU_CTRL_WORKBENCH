@@ -1,8 +1,8 @@
 {
-  "release": "sa-original-interface-20261024",
+  "release": "sa-august-baseline-18ports-20261024",
   "source": "TPU_CTRL_WORKBENCH.html",
-  "sourceSha256": "bb7a8dbbc3270e923b43f86fb07ca242ce9a2cf0eb263868dc19a086de0684b4",
-  "publishedSha256": "a24fe09b921e6840b7b4644480bb1c6c30471be9f305bd93523ace29b3176fb5",
+  "sourceSha256": "ec6bca3c2c90b59c537aab88a697720d3c2eb9b62d39bbf204948cfc1965c408",
+  "publishedSha256": "55c35215fdfde66b308b91d5d26752405a10f26f2675cb3af4de65d4b4d4ddad",
   "publicationChange": "Only replace the embedded offline diagram link with a relative web link.",
   "sources": [
     {
@@ -12,8 +12,8 @@
     },
     {
       "name": "TPU_CTRL/rtl/tpu_compute_path.sv",
-      "sourceSha256": "ca3d1c79edcb0ad9d9f97db66b313ec6bcde8d9ab5e99187624b782f346d6eaa",
-      "publishedSha256": "1ac3602a4fa242cbe9faff7ee6aa3c636bd452abd3f52af8cd407e619436b02d"
+      "sourceSha256": "1b379b2b0c0a41fece1777f14c433339cd0bc6a613e2f510fa60414977926ab5",
+      "publishedSha256": "560a863a87b5754bad128ff1d340deea00600181b9a53bebd92aa8770582a163"
     },
     {
       "name": "TPU_CTRL/rtl/tpu_ctrl_sync.sv",
@@ -87,13 +87,13 @@
     },
     {
       "name": "integration/tpu_compute_path.sv",
-      "sourceSha256": "e27de17aca29a6867feb0992d83b87370bd81d7288493692cf620fb1a0a70bf8",
-      "publishedSha256": "d21bb3d89d0d49e0a90a9affaeae2c25b40194f76ac95f9a8876e28e91e15865"
+      "sourceSha256": "ac0532a8acd9ef78873b8789a1172f9455216a805f008627f1d7d4db79becefd",
+      "publishedSha256": "d9210ab0a7691f1c64402293fd966ea6b124b8d41b9a3d1903ef0ba2c41d7b55"
     },
     {
       "name": "sa/rtl/sa_top.sv",
-      "sourceSha256": "e8db4d5e66fab606aea74fe824b80061e29afe66dca282085d6b9445b88ef37a",
-      "publishedSha256": "ae439d30e167dd3b0aff0e5b7e67fc1491c12b9c40ff7cdb268e52e4bef84048"
+      "sourceSha256": "1ff701ca3aa3637be7bf3f2cb00b76443bdba9c164ecc97ff637bb8da05ec801",
+      "publishedSha256": "1ff701ca3aa3637be7bf3f2cb00b76443bdba9c164ecc97ff637bb8da05ec801"
     },
     {
       "name": "sa/rtl/sa_ctrl.sv",
@@ -102,8 +102,8 @@
     },
     {
       "name": "sa/rtl/output_collector.sv",
-      "sourceSha256": "42afa7133bdadd35e12c6ad3bc8108ab9adc0d04eaff41b2efc56646831fc9e2",
-      "publishedSha256": "42afa7133bdadd35e12c6ad3bc8108ab9adc0d04eaff41b2efc56646831fc9e2"
+      "sourceSha256": "03133a594eb583361c540606e3b85732f0c4fd935d8920b6d2cb2cf9ebf1e91e",
+      "publishedSha256": "03133a594eb583361c540606e3b85732f0c4fd935d8920b6d2cb2cf9ebf1e91e"
     },
     {
       "name": "AXI_TOP/AXI_M_TOP/rtl/fifo_in.sv",
