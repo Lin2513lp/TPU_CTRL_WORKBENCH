@@ -1,14 +1,14 @@
 {
-  "release": "sa-august-baseline-18ports-20261024",
+  "release": "ctrl-sa-existing-markers-18ports-20261024",
   "source": "TPU_CTRL_WORKBENCH.html",
-  "sourceSha256": "ec6bca3c2c90b59c537aab88a697720d3c2eb9b62d39bbf204948cfc1965c408",
-  "publishedSha256": "55c35215fdfde66b308b91d5d26752405a10f26f2675cb3af4de65d4b4d4ddad",
+  "sourceSha256": "fbc58d9cc361e8a93bfee900214fa6487ac92d247da776695b70b23f0dbf7287",
+  "publishedSha256": "0c8389ada4105f43c6bf94d9b3853734dae47495da93209d7d1349d26936d1ec",
   "publicationChange": "Only replace the embedded offline diagram link with a relative web link.",
   "sources": [
     {
       "name": "TPU_CTRL/rtl/tpu_ctrl.sv",
-      "sourceSha256": "7ce759b67c37c3ae85ef51af9f37e20e93b5c3268a034de54f0d0fdda8f02f95",
-      "publishedSha256": "55f955792503460ead1081f49fd993b878044380fcfef545fe2086e641fb6c25"
+      "sourceSha256": "36e8b638c1a6de2e0631cdb300a61b13ae087f9d585dbd8dd978bcfe04012602",
+      "publishedSha256": "b68f88cc011dcac1d36e8387038da97ce902a1010c04bfb8cebfbe887a31e7dd"
     },
     {
       "name": "TPU_CTRL/rtl/tpu_compute_path.sv",
@@ -32,8 +32,8 @@
     },
     {
       "name": "TPU_CTRL/tb/tb_tpu_ctrl.sv",
-      "sourceSha256": "98cafe54452fa0156e8aa36fabcf6053f1853fb9585f2a755adf1b252f98efc1",
-      "publishedSha256": "a608c72a7693ebd5cd7f98b1c804300f91ffb41ca5b03fab3605445a99b7cd29"
+      "sourceSha256": "3bd9a45aecd37fc86e91f91ba3157dac3cc966cff383e6266edff756a2d33800",
+      "publishedSha256": "f05d384762a8dffd403418715ecfabd32959b47f84c6d1ca1c70e5ee6783a6cc"
     },
     {
       "name": "TPU_CTRL/rtl/reg_list.sv",
@@ -62,8 +62,8 @@
     },
     {
       "name": "TPU_CTRL/tb/tpu_ctrl_assertions.sv",
-      "sourceSha256": "438b3b0e379f22dd5fc86e478f5ca983f680fca0f7af611081efefe493b30069",
-      "publishedSha256": "23467dbb19387188f015b830948bcc733d2cdfc2c76bf715617d245226cc5c9b"
+      "sourceSha256": "2f477932939693596682db3300e150df65bfa10b46a88aa916275b308ee31e66",
+      "publishedSha256": "bb698a05f24b14554c72ea61656119be7970dc1615972919e45314491240124a"
     },
     {
       "name": "TPU_CTRL/tb/reg_list_assertions.sv",
@@ -92,8 +92,8 @@
     },
     {
       "name": "sa/rtl/sa_top.sv",
-      "sourceSha256": "1ff701ca3aa3637be7bf3f2cb00b76443bdba9c164ecc97ff637bb8da05ec801",
-      "publishedSha256": "1ff701ca3aa3637be7bf3f2cb00b76443bdba9c164ecc97ff637bb8da05ec801"
+      "sourceSha256": "b4f3a68f54b9b4140fd91a9d30bd5a2617513d628558ac1cdfc00aa7ab6b1827",
+      "publishedSha256": "7a8c1e7231dfb9ae0ceb96fcc408df08269ca1eb1d03609149a1de902e15d47d"
     },
     {
       "name": "sa/rtl/sa_ctrl.sv",
@@ -102,8 +102,8 @@
     },
     {
       "name": "sa/rtl/output_collector.sv",
-      "sourceSha256": "03133a594eb583361c540606e3b85732f0c4fd935d8920b6d2cb2cf9ebf1e91e",
-      "publishedSha256": "03133a594eb583361c540606e3b85732f0c4fd935d8920b6d2cb2cf9ebf1e91e"
+      "sourceSha256": "af5533d9cfde001ea51df1e2092ef95fe96471dae236a0554e091c4de670ec26",
+      "publishedSha256": "af5533d9cfde001ea51df1e2092ef95fe96471dae236a0554e091c4de670ec26"
     },
     {
       "name": "AXI_TOP/AXI_M_TOP/rtl/fifo_in.sv",
