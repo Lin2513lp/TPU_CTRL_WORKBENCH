@@ -9,7 +9,6 @@ module tb_tpu_ctrl;
     logic fifo_empty, fifo_in_rd_dat_last;
     logic [511:0] fifo_in_rdata;
     logic data_out_last;
-    logic done_clear_ack;
     logic fifo_in_re, cpu_tpu_en_sync, cpu_tpu_start_sync;
     logic [511:0] dat_in_a;
     logic dat_in_vld, dat_in_last, rpt_cpt_done, rpt_error;
@@ -33,8 +32,6 @@ module tb_tpu_ctrl;
         .tpu_rst_n(tpu_rst_n),
         .cpu_tpu_en(cpu_tpu_en),
         .cpu_tpu_start(cpu_tpu_start),
-        .cpu_done_clear_req(1'b0),
-        .done_clear_ack(done_clear_ack),
         .cpu_cpt_mode(cpu_cpt_mode),
         .cpu_h_size(cpu_h_size),
         .cpu_w_size(cpu_w_size),

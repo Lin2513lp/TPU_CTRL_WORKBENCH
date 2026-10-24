@@ -9,6 +9,7 @@ module reg_list_assertions (
     input wire logic [31:0] ahb_wr_data, ahb_rd_data,
     input wire logic ahb_wr_en, ahb_rd_en,
     input wire logic cpu_sw_rst, cpu_tpu_start, cpu_dat_in_b_lock,
+    input wire logic rpt_cpt_done,
     input wire logic cpu_tpu_en, cpu_tpu_crg_en
 );
     default clocking cb @(posedge hclk); endclocking
@@ -28,6 +29,10 @@ module reg_list_assertions (
         (ahb_wr_en && (ahb_addr == 10'h000)) |=> cpu_tpu_en == $past(ahb_wr_data[0]));
     p_tpu_en_hold: assert property (
         !(ahb_wr_en && (ahb_addr == 10'h000)) |=> $stable(cpu_tpu_en));
+    // DONE readback follows the hardware report, including during RO writes.
+    p_done_read_only: assert property (
+        (ahb_rd_en && (ahb_addr == 10'h104))
+        |-> (ahb_rd_data == {31'b0, rpt_cpt_done}));
     p_read_disabled: assert property (!ahb_rd_en |-> (ahb_rd_data == 32'd0));
     p_w1p_read_zero: assert property (
         (ahb_rd_en && ((ahb_addr == 10'h001) || (ahb_addr == 10'h002) || (ahb_addr == 10'h008)))
@@ -40,6 +45,7 @@ bind reg_list reg_list_assertions u_reg_list_assertions (
     .ahb_wr_en(ahb_wr_en), .ahb_rd_en(ahb_rd_en),
     .cpu_sw_rst(cpu_sw_rst), .cpu_tpu_start(cpu_tpu_start),
     .cpu_dat_in_b_lock(cpu_dat_in_b_lock),
+    .rpt_cpt_done(rpt_cpt_done),
     .cpu_tpu_en(cpu_tpu_en), .cpu_tpu_crg_en(cpu_tpu_crg_en)
 );
 

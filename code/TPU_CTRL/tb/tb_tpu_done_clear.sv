@@ -17,14 +17,13 @@ module tb_tpu_done_clear;
     logic [1:0] cpu_cpt_mode;
     logic cpu_dat_in_b_lock,cpu_tpu_crg_en;
     logic [511:0] cpu_dat_in_b;
-    logic cpu_done_clear_req,done_clear_ack,rpt_cpt_done,rpt_error;
+    logic rpt_cpt_done,rpt_error;
     logic [2:0] rpt_error_state;
     logic [31:0] rpt_dat_in_cnt;
     logic fifo_empty=1,fifo_in_rd_dat_last=0,data_out_last=0;
     logic [511:0] fifo_in_rdata=512'h1234,dat_in_a;
     logic fifo_in_re,cpu_tpu_en_sync,cpu_tpu_start_sync,dat_in_vld,dat_in_last;
     logic [31:0] read_value;
-    logic saved_req;
     integer checks=0;
     ahb_slave_regmap u_reg (
         .ahb_clk,.tpu_rst_n,.hsel,.hsize,.haddr,.hburst,.htrans,.hwrite,.hwdata,
@@ -32,20 +31,19 @@ module tb_tpu_done_clear;
         .cpu_tpu_en,.cpu_sw_rst,.cpu_tpu_start,.cpu_tpu_crg_bypass,
         .cpu_h_size,.cpu_w_size,.cpu_cpt_mode,.cpu_dat_in_b_sel,
         .cpu_dat_in_b_lock,.cpu_tpu_crg_en,.cpu_dat_in_b,
-        .cpu_done_clear_req,.done_clear_ack,
         .rpt_active_size(32'h0001_0001),.rpt_cpt_cyc(32'd1),
         .rpt_dat_in_cnt,.rpt_error(1'b1),.rpt_error_state,.rpt_cpt_done
     );
     tpu_ctrl u_ctrl (
         .sys_ckg,.tpu_rst_n,.cpu_tpu_en,.cpu_tpu_start,
-        .cpu_done_clear_req,.done_clear_ack,.cpu_cpt_mode,.cpu_h_size,.cpu_w_size,
+        .cpu_cpt_mode,.cpu_h_size,.cpu_w_size,
         .fifo_empty,.fifo_in_rdata,.fifo_in_rd_dat_last,.data_out_last,
         .fifo_in_re,.cpu_tpu_en_sync,.cpu_tpu_start_sync,.dat_in_a,
         .dat_in_vld,.dat_in_last,.rpt_cpt_done,.rpt_dat_in_cnt,.rpt_error,.rpt_error_state
     );
     task automatic check(input logic ok,input string msg);
         checks++;
-        if(ok !== 1'b1) $fatal(1,"DONE_CLEAR %s at %0t",msg,$time);
+        if(ok !== 1'b1) $fatal(1,"DONE_READ_ONLY %s at %0t",msg,$time);
     endtask
     task automatic access_reg(input logic wr,input logic [31:0] addr,
                               input logic [31:0] data,input logic err);
@@ -64,7 +62,7 @@ module tb_tpu_done_clear;
     endtask
     task automatic read_done(input logic expected_done);
         access_reg(0,32'h410,0,0);
-        check(read_value=={31'b0,expected_done},"AHB synchronized DONE readback");
+        check(read_value=={31'b0,expected_done},"AHB DONE readback");
     endtask
     task automatic start_and_drain;
         access_reg(1,32'h008,1,0);
@@ -96,51 +94,41 @@ module tb_tpu_done_clear;
         access_reg(0,32'h41c,0,1);
         access_reg(1,32'h000,1,0);
         start_and_drain();finish_task();read_done(1);
-        saved_req=cpu_done_clear_req;
-        access_reg(1,32'h410,32'hffff_fffe,0);
-        check(cpu_done_clear_req===saved_req,"write-zero bit0 is no-op");read_done(1);
+        // DONE is read-only: both zero and one writes leave completion set.
+        access_reg(1,32'h410,32'hffff_fffe,0);read_done(1);
+        access_reg(1,32'h410,32'hffff_ffff,0);read_done(1);
         access_reg(1,32'h000,0,0);
         repeat(8) @(negedge sys_ckg);
         check(rpt_cpt_done,"EN disable retains DONE");read_done(1);
         @(negedge raw_sys_clk);sys_run=0;
-        access_reg(1,32'h410,1,0);
-        check(cpu_done_clear_req!==done_clear_ack,"clear request stays pending while SYS gated");
-        saved_req=cpu_done_clear_req;
         repeat(3) access_reg(1,32'h410,1,0);
-        check(cpu_done_clear_req===saved_req,"repeated W1C coalesces without toggle cancellation");
-        check(rpt_cpt_done,"stopped SYS retains DONE until request can execute");read_done(1);
+        check(rpt_cpt_done,"DONE writes while SYS stopped cannot clear status");read_done(1);
         @(negedge raw_sys_clk);sys_run=1;
         repeat(8) @(negedge sys_ckg);
-        check(!rpt_cpt_done && done_clear_ack===cpu_done_clear_req,"wake processes clear exactly once");
-        read_done(0);
+        check(rpt_cpt_done,"clock restart does not cause a deferred clear");read_done(1);
         access_reg(1,32'h000,1,0);
         start_and_drain();finish_task();read_done(1);
-        // A new START, without a W1C, clears the prior task's sticky completion.
+        // Each accepted START clears old DONE, without any software clear path.
         start_and_drain();
-        // Align a genuine AHB-originated clear event with the completion edge.
+        access_reg(1,32'h410,1,0);read_done(0);
+        // A legal completion still sets DONE while software writes the RO word.
         fork
             begin access_reg(1,32'h410,1,0); end
-            begin
-                wait(u_ctrl.done_clear_event===1'b1);
-                @(negedge sys_ckg);data_out_last=1;
-                @(negedge sys_ckg);data_out_last=0;
-                check(rpt_cpt_done,"hardware completion dominates coincident software clear");
-            end
+            begin finish_task(); end
         join
-        repeat(16) @(negedge sys_ckg);
-        check(rpt_cpt_done,"processed clear cannot erase completion again");read_done(1);
-        access_reg(1,32'h410,1,0);read_done(0);
-        // Reset must discard an outstanding request and align both toggle endpoints.
+        read_done(1);
+        access_reg(1,32'h410,0,0);read_done(1);
+        // Reset remains effective even while the business clock is stopped.
         @(negedge raw_sys_clk);sys_run=0;
         access_reg(1,32'h410,1,0);
         #0.2;tpu_rst_n=0;#0.2;
-        check(!rpt_cpt_done && !cpu_done_clear_req && !done_clear_ack,"reset aligns handshake and clears DONE");
+        check(!rpt_cpt_done,"reset clears DONE without a business clock edge");
         @(negedge raw_sys_clk);sys_run=1;
         repeat(4) @(negedge ahb_clk);tpu_rst_n=1;
         repeat(8) @(negedge sys_ckg);read_done(0);
-        $display("DONE_CLEAR_PASS checks=%0d",checks);
+        $display("DONE_READ_ONLY_PASS checks=%0d",checks);
         $finish;
     end
-    initial begin #20000;$fatal(1,"DONE_CLEAR watchdog");end
+    initial begin #20000;$fatal(1,"DONE_READ_ONLY watchdog");end
 endmodule
 `default_nettype wire

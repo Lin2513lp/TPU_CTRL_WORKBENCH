@@ -8,7 +8,7 @@ module tpu_ctrl_assertions (
     input wire logic fifo_in_re, fifo_empty, cpu_tpu_en_sync,
     input wire logic dat_in_vld, dat_in_last,
     input wire logic rpt_cpt_done, data_out_last,
-    input wire logic start_accept, done_clear_event,
+    input wire logic start_accept,
     input wire logic task_active_q,skew_last_seen_q,output_last_seen_q,input_last_seen_q,
     input wire logic rpt_error,
     input wire logic [2:0] rpt_error_state
@@ -18,7 +18,7 @@ module tpu_ctrl_assertions (
     assert property (@(posedge sys_ckg) disable iff (!tpu_rst_n)
         dat_in_last |-> dat_in_vld);
     assert property (@(posedge sys_ckg) disable iff (!tpu_rst_n)
-        (rpt_cpt_done && !start_accept && !done_clear_event) |=> rpt_cpt_done);
+        (rpt_cpt_done && !start_accept) |=> rpt_cpt_done);
     assert property (@(posedge sys_ckg) disable iff (!tpu_rst_n)
         $rose(rpt_cpt_done) |-> $past(task_active_q && cpu_tpu_en_sync &&
             (skew_last_seen_q || (dat_in_vld && dat_in_last)) &&
@@ -31,7 +31,7 @@ bind tpu_ctrl tpu_ctrl_assertions u_protocol_checks (
     .sys_ckg, .tpu_rst_n, .fifo_in_re, .fifo_empty, .cpu_tpu_en_sync,
     .dat_in_vld(skew_dat_in_vld), .dat_in_last(skew_dat_in_last),
     .rpt_cpt_done, .data_out_last,
-    .start_accept, .done_clear_event,
+    .start_accept,
     .rpt_error, .rpt_error_state,
     .task_active_q, .skew_last_seen_q, .output_last_seen_q, .input_last_seen_q
 );

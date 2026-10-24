@@ -84,7 +84,6 @@
 <text x="472" y="889" class="" text-anchor="start">cpu_tpu_start [1]</text>
 <text x="472" y="923" class="" text-anchor="start">cpu_cpt_mode [2]</text>
 <text x="472" y="957" class="" text-anchor="start">cpu_h_size [4] / cpu_w_size [4]</text>
-<text x="472" y="991" class="" text-anchor="start">cpu_done_clear_req [1]</text>
 <path d="M900 750V1080" class="blue"/>
 <path d="M790 910H900" class="blue"/>
 <text x="883" y="1052" class="note" text-anchor="end">配置跨域</text>
@@ -94,7 +93,6 @@
 <text x="1155" y="889" class="" text-anchor="start">rpt_dat_in_cnt [32]</text>
 <text x="1155" y="923" class="" text-anchor="start">rpt_error [1] · 0x106 RO</text>
 <text x="1155" y="957" class="" text-anchor="start">rpt_error_state [3]</text>
-<text x="1155" y="991" class="" text-anchor="start">done_clear_ack [1]</text>
 <text x="1155" y="1048" class="small" text-anchor="start">错误次数：0x103 [2:0] · RO</text>
 <path d="M1040 1080V750" class="green"/>
 <path d="M1135 910H1040" class="green"/>
@@ -159,7 +157,7 @@
 <text x="1575" y="1653" class="note" text-anchor="end">SA 结果流</text>
 <path d="M1595 1632H1165V1560H1110" class="green"/>
 <text x="1140" y="1770" class="note" text-anchor="end">data_out_last [1]</text>
-<text x="1140" y="1805" class="small" text-anchor="end">SA valid 与 last 反馈；CTRL保持DONE；0x104 W1C清除</text>
+<text x="1140" y="1805" class="small" text-anchor="end">SA valid 与 last 反馈；CTRL保持DONE；0x104只读，写入忽略</text>
 <text x="30" y="1642" class="heading" text-anchor="start">时钟 / 复位</text>
 <text x="30" y="1683" class="note" text-anchor="start">AHB_SLAVE、REG_MAP：ahb_clk [1] / tpu_rst_n [1]</text>
 <text x="30" y="1724" class="note" text-anchor="start">TPU_CTRL：sys_ckg [1] / tpu_rst_n [1]</text>
